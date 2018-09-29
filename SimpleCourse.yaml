@@ -1,124 +1,1022 @@
-swagger: '2.0'
+---
+swagger: "2.0"
 info:
-  description: This is a simple API
-  version: 1.0.0
-  title: Simple Inventory API
-  # put the contact info for your development or API team
-  contact:
-    email: you@your-company.com
-
-  license:
-    name: Apache 2.0
-    url: http://www.apache.org/licenses/LICENSE-2.0.html
-
-# tags are used for organizing operations
+  description: "SimpleCourse API Document"
+  version: "0.1"
+  title: "SimpleCourse"
+host: "api.baoleme.andiedie.cn"
+basePath: "/"
 tags:
-- name: admins
-  description: Secured Admin-only calls
-- name: developers
-  description: Operations available to regular developers
-
+- name: "admin"
+  description: "Admin"
+- name: "teacher"
+  description: "Teacher"
+- name: "ta"
+  description: "TA"
+- name: "student"
+  description: "Student"
+- name: "course"
+  description: "Course"
+- name: "courseware"
+  description: "CourseWare"
+- name: "homework"
+  description: "Homework"
+- name: "submit"
+  description: "Homework submit"
+schemes:
+- "https"
 paths:
-  /inventory:
-    get:
+  /admin/signin:
+    put:
       tags:
-      - developers
-      summary: searches inventory
-      operationId: searchInventory
-      description: |
-        By passing in the appropriate options, you can search for
-        available inventory in the system
-      produces:
-      - application/json
-      parameters:
-      - in: query
-        name: searchString
-        description: pass an optional search string for looking up inventory
-        required: false
-        type: string
-      - in: query
-        name: skip
-        description: number of records to skip for pagination
-        type: integer
-        format: int32
-        minimum: 0
-      - in: query
-        name: limit
-        description: maximum number of records to return
-        type: integer
-        format: int32
-        minimum: 0
-        maximum: 50
+      - "admin"
+      summary: "signin"
+      parameters: []
       responses:
         200:
-          description: search results matching criteria
+          description: "OK"
           schema:
-            type: array
-            items:
-              $ref: '#/definitions/InventoryItem'
+            $ref: "#/definitions/Result"
         400:
-          description: bad input parameter
+          description: "Error"
+          schema:
+            $ref: "#/definitions/Result"
+  /admin/signout:
+    delete:
+      tags:
+      - "admin"
+      summary: "signout"
+      parameters: []
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Result"
+        400:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/Result"
+  /admin/signup:
+    put:
+      tags:
+      - "admin"
+      summary: "signup"
+      parameters: []
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Result"
+        400:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/Result"
+  /teacher:
+    get:
+      tags:
+      - "teacher"
+      summary: "get teacher list"
+      description: "getTeacher"
+      parameters: []
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Result"
+        400:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/Result"
+  /teacher/{teacher_id}:
+    get:
+      tags:
+      - "teacher"
+      summary: "get teacher detail"
+      parameters:
+      - name: "teacher_id"
+        in: "path"
+        description: "ID of pet that needs to be updated"
+        required: true
+        type: "number"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Result"
+        400:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/Result"
     post:
       tags:
-      - admins
-      summary: adds an inventory item
-      operationId: addInventory
-      description: Adds an item to the system
-      consumes:
-      - application/json
-      produces:
-      - application/json
+      - "teacher"
+      summary: "add teacher detail"
       parameters:
-      - in: body
-        name: inventoryItem
-        description: Inventory item to add
-        schema:
-          $ref: '#/definitions/InventoryItem'
+      - name: "teacher_id"
+        in: "path"
+        description: "ID of pet that needs to be updated"
+        required: true
+        type: "number"
       responses:
-        201:
-          description: item created
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Result"
         400:
-          description: invalid input, object invalid
-        409:
-          description: an existing item already exists
+          description: "Error"
+          schema:
+            $ref: "#/definitions/Result"
+    put:
+      tags:
+      - "teacher"
+      summary: "update teacher detail"
+      parameters:
+      - name: "teacher_id"
+        in: "path"
+        description: "ID of pet that needs to be updated"
+        required: true
+        type: "number"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Result"
+        400:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/Result"
+    delete:
+      tags:
+      - "teacher"
+      summary: "delete teacher"
+      parameters:
+      - name: "teacher_id"
+        in: "path"
+        description: "ID of pet that needs to be updated"
+        required: true
+        type: "number"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Result"
+        400:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/Result"
+  /course/{course_id}/ta/:
+    get:
+      tags:
+      - "ta"
+      summary: "get TA list"
+      parameters:
+      - name: "course_id"
+        in: "path"
+        description: "ID of pet that needs to be updated"
+        required: true
+        type: "number"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Result"
+        400:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/Result"
+  /course/{course_id}/ta/{ta_id}:
+    get:
+      tags:
+      - "ta"
+      summary: "get TA detail"
+      parameters:
+      - name: "course_id"
+        in: "path"
+        description: "ID of pet that needs to be updated"
+        required: true
+        type: "number"
+      - name: "ta_id"
+        in: "path"
+        description: "ID of pet that needs to be updated"
+        required: true
+        type: "number"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Result"
+        400:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/Result"
+    post:
+      tags:
+      - "ta"
+      summary: "add TA detail"
+      parameters:
+      - name: "course_id"
+        in: "path"
+        description: "ID of pet that needs to be updated"
+        required: true
+        type: "number"
+      - name: "ta_id"
+        in: "path"
+        description: "ID of pet that needs to be updated"
+        required: true
+        type: "number"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Result"
+        400:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/Result"
+    put:
+      tags:
+      - "ta"
+      summary: "update TA detail"
+      parameters:
+      - name: "course_id"
+        in: "path"
+        description: "ID of pet that needs to be updated"
+        required: true
+        type: "number"
+      - name: "ta_id"
+        in: "path"
+        description: "ID of pet that needs to be updated"
+        required: true
+        type: "number"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Result"
+        400:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/Result"
+    delete:
+      tags:
+      - "ta"
+      summary: "delete TA"
+      parameters:
+      - name: "course_id"
+        in: "path"
+        description: "ID of pet that needs to be updated"
+        required: true
+        type: "number"
+      - name: "ta_id"
+        in: "path"
+        description: "ID of pet that needs to be updated"
+        required: true
+        type: "number"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Result"
+        400:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/Result"
+  /student:
+    get:
+      tags:
+      - "student"
+      summary: "get student list"
+      description: "getTeacher"
+      parameters: []
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Result"
+        400:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/Result"
+  /student/{student_id}:
+    get:
+      tags:
+      - "student"
+      summary: "get student detail"
+      parameters:
+      - name: "student_id"
+        in: "path"
+        description: "ID of pet that needs to be updated"
+        required: true
+        type: "number"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Result"
+        400:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/Result"
+    post:
+      tags:
+      - "student"
+      summary: "add student detail"
+      parameters:
+      - name: "student_id"
+        in: "path"
+        description: "ID of pet that needs to be updated"
+        required: true
+        type: "number"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Result"
+        400:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/Result"
+    put:
+      tags:
+      - "student"
+      summary: "update student detail"
+      parameters:
+      - name: "student_id"
+        in: "path"
+        description: "ID of pet that needs to be updated"
+        required: true
+        type: "number"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Result"
+        400:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/Result"
+    delete:
+      tags:
+      - "student"
+      summary: "delete student"
+      parameters:
+      - name: "student_id"
+        in: "path"
+        description: "ID of pet that needs to be updated"
+        required: true
+        type: "number"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Result"
+        400:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/Result"
+  /course:
+    get:
+      tags:
+      - "course"
+      summary: "get course list"
+      parameters: []
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Result"
+        400:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/Result"
+  /course/{course_id}:
+    get:
+      tags:
+      - "course"
+      summary: "get course detail"
+      parameters:
+      - name: "course_id"
+        in: "path"
+        description: "ID of pet that needs to be updated"
+        required: true
+        type: "number"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Result"
+        400:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/Result"
+    post:
+      tags:
+      - "course"
+      summary: "add course detail"
+      parameters:
+      - name: "course_id"
+        in: "path"
+        description: "ID of pet that needs to be updated"
+        required: true
+        type: "number"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Result"
+        400:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/Result"
+    put:
+      tags:
+      - "course"
+      summary: "update course detail"
+      parameters:
+      - name: "course_id"
+        in: "path"
+        description: "ID of pet that needs to be updated"
+        required: true
+        type: "number"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Result"
+        400:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/Result"
+    delete:
+      tags:
+      - "course"
+      summary: "delete course"
+      parameters:
+      - name: "course_id"
+        in: "path"
+        description: "ID of pet that needs to be updated"
+        required: true
+        type: "number"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Result"
+        400:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/Result"
+  /course/{course_id}/courseware:
+    get:
+      tags:
+      - "courseware"
+      summary: "get course[i] courseware list"
+      parameters:
+      - name: "course_id"
+        in: "path"
+        description: "ID of pet that needs to be updated"
+        required: true
+        type: "number"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Result"
+        400:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/Result"
+  /course/{course_id}/courseware/{courseware_id}:
+    get:
+      tags:
+      - "courseware"
+      summary: "get courseware detail"
+      parameters:
+      - name: "course_id"
+        in: "path"
+        description: "ID of pet that needs to be updated"
+        required: true
+        type: "number"
+      - name: "courseware_id"
+        in: "path"
+        description: "ID of pet that needs to be updated"
+        required: true
+        type: "number"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Result"
+        400:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/Result"
+    post:
+      tags:
+      - "courseware"
+      summary: "add courseware detail"
+      parameters:
+      - name: "course_id"
+        in: "path"
+        description: "ID of pet that needs to be updated"
+        required: true
+        type: "number"
+      - name: "courseware_id"
+        in: "path"
+        description: "ID of pet that needs to be updated"
+        required: true
+        type: "number"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Result"
+        400:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/Result"
+    put:
+      tags:
+      - "courseware"
+      summary: "update courseware detail"
+      parameters:
+      - name: "course_id"
+        in: "path"
+        description: "ID of pet that needs to be updated"
+        required: true
+        type: "number"
+      - name: "courseware_id"
+        in: "path"
+        description: "ID of pet that needs to be updated"
+        required: true
+        type: "number"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Result"
+        400:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/Result"
+    delete:
+      tags:
+      - "courseware"
+      summary: "delete courseware"
+      parameters:
+      - name: "course_id"
+        in: "path"
+        description: "ID of pet that needs to be updated"
+        required: true
+        type: "number"
+      - name: "courseware_id"
+        in: "path"
+        description: "ID of pet that needs to be updated"
+        required: true
+        type: "number"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Result"
+        400:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/Result"
+  /course/{course_id}/homework:
+    get:
+      tags:
+      - "homework"
+      summary: "get course[i] homework list"
+      parameters:
+      - name: "course_id"
+        in: "path"
+        description: "ID of pet that needs to be updated"
+        required: true
+        type: "number"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Result"
+        400:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/Result"
+  /course/{course_id}/homework/{homework_id}:
+    get:
+      tags:
+      - "homework"
+      summary: "get homework detail"
+      parameters:
+      - name: "course_id"
+        in: "path"
+        description: "ID of pet that needs to be updated"
+        required: true
+        type: "number"
+      - name: "homework_id"
+        in: "path"
+        description: "ID of pet that needs to be updated"
+        required: true
+        type: "number"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Result"
+        400:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/Result"
+    post:
+      tags:
+      - "homework"
+      summary: "add homework detail"
+      parameters:
+      - name: "course_id"
+        in: "path"
+        description: "ID of pet that needs to be updated"
+        required: true
+        type: "number"
+      - name: "homework_id"
+        in: "path"
+        description: "ID of pet that needs to be updated"
+        required: true
+        type: "number"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Result"
+        400:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/Result"
+    put:
+      tags:
+      - "homework"
+      summary: "update homework detail"
+      parameters:
+      - name: "course_id"
+        in: "path"
+        description: "ID of pet that needs to be updated"
+        required: true
+        type: "number"
+      - name: "homework_id"
+        in: "path"
+        description: "ID of pet that needs to be updated"
+        required: true
+        type: "number"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Result"
+        400:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/Result"
+    delete:
+      tags:
+      - "homework"
+      summary: "delete homework"
+      parameters:
+      - name: "course_id"
+        in: "path"
+        description: "ID of pet that needs to be updated"
+        required: true
+        type: "number"
+      - name: "homework_id"
+        in: "path"
+        description: "ID of pet that needs to be updated"
+        required: true
+        type: "number"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Result"
+        400:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/Result"
+  /course/{course_id}/homework/{homework_id}/submit:
+    get:
+      tags:
+      - "submit"
+      summary: "get course[i] homework[j] submit list"
+      parameters:
+      - name: "course_id"
+        in: "path"
+        description: "ID of pet that needs to be updated"
+        required: true
+        type: "number"
+      - name: "homework_id"
+        in: "path"
+        description: "ID of pet that needs to be updated"
+        required: true
+        type: "number"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Result"
+        400:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/Result"
+  /course/{course_id}/homework/{homework_id}/submit/{submit_id}:
+    get:
+      tags:
+      - "submit"
+      summary: "get submit detail"
+      parameters:
+      - name: "course_id"
+        in: "path"
+        description: "ID of pet that needs to be updated"
+        required: true
+        type: "number"
+      - name: "homework_id"
+        in: "path"
+        description: "ID of pet that needs to be updated"
+        required: true
+        type: "number"
+      - name: "submit_id"
+        in: "path"
+        description: "ID of pet that needs to be updated"
+        required: true
+        type: "number"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Result"
+        400:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/Result"
+    post:
+      tags:
+      - "submit"
+      summary: "add submit detail"
+      parameters:
+      - name: "course_id"
+        in: "path"
+        description: "ID of pet that needs to be updated"
+        required: true
+        type: "number"
+      - name: "homework_id"
+        in: "path"
+        description: "ID of pet that needs to be updated"
+        required: true
+        type: "number"
+      - name: "submit_id"
+        in: "path"
+        description: "ID of pet that needs to be updated"
+        required: true
+        type: "number"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Result"
+        400:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/Result"
+    put:
+      tags:
+      - "submit"
+      summary: "update submit detail"
+      parameters:
+      - name: "course_id"
+        in: "path"
+        description: "ID of pet that needs to be updated"
+        required: true
+        type: "number"
+      - name: "homework_id"
+        in: "path"
+        description: "ID of pet that needs to be updated"
+        required: true
+        type: "number"
+      - name: "submit_id"
+        in: "path"
+        description: "ID of pet that needs to be updated"
+        required: true
+        type: "number"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Result"
+        400:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/Result"
+    delete:
+      tags:
+      - "submit"
+      summary: "delete submit"
+      parameters:
+      - name: "course_id"
+        in: "path"
+        description: "ID of pet that needs to be updated"
+        required: true
+        type: "number"
+      - name: "homework_id"
+        in: "path"
+        description: "ID of pet that needs to be updated"
+        required: true
+        type: "number"
+      - name: "submit_id"
+        in: "path"
+        description: "ID of pet that needs to be updated"
+        required: true
+        type: "number"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Result"
+        400:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/Result"
+  /course/{course_id}/homework/{homework_id}/student/{student_id}:
+    post:
+      tags:
+      - "submit"
+      summary: "student submit api"
+      parameters:
+      - name: "course_id"
+        in: "path"
+        description: "ID of pet that needs to be updated"
+        required: true
+        type: "number"
+      - name: "homework_id"
+        in: "path"
+        description: "ID of pet that needs to be updated"
+        required: true
+        type: "number"
+      - name: "student_id"
+        in: "path"
+        description: "ID of pet that needs to be updated"
+        required: true
+        type: "number"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Result"
+        400:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/Result"
 definitions:
-  InventoryItem:
-    type: object
-    required:
-    - id
-    - name
-    - manufacturer
-    - releaseDate
+  Result:
+    type: "object"
+    properties:
+      status:
+        type: "number"
+      message:
+        type: "string"
+    example:
+      message: "message"
+      status: 0.80082819046101150206595775671303272247314453125
+  Course:
+    type: "object"
     properties:
       id:
-        type: string
-        format: uuid
-        example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        type: "number"
       name:
-        type: string
-        example: Widget Adapter
-      releaseDate:
-        type: string
-        format: int32
-        example: 2016-08-29T09:12:33.001Z
-      manufacturer:
-        $ref: '#/definitions/Manufacturer'
-  Manufacturer:
-    required:
-    - name
+        type: "string"
+      info:
+        type: "string"
+      capacity:
+        type: "number"
+      period:
+        type: "string"
+      update_time:
+        type: "number"
+      state:
+        type: "number"
+  Courseware:
+    type: "object"
     properties:
+      status:
+        type: "number"
+      message:
+        type: "string"
+      update_time:
+        type: "number"
+      state:
+        type: "number"
+  Notification:
+    type: "object"
+    properties:
+      id:
+        type: "number"
+      course_id:
+        type: "number"
+      title:
+        type: "string"
+      content:
+        type: "string"
+      create_time:
+        type: "number"
+      update_time:
+        type: "number"
+      state:
+        type: "number"
+  Homework:
+    type: "object"
+    properties:
+      id:
+        type: "number"
+      requirement:
+        type: "string"
       name:
-        type: string
-        example: ACME Corporation
-      homePage:
-        type: string
-        format: url
-        example:  https://www.acme-corp.com
-      phone:
-        type: string
-        example: 408-867-5309
-# Added by API Auto Mocking Plugin
-host: virtserver.swaggerhub.com
-basePath: /SteiensGate/SimpleCourseX/1.0.0
-schemes:
- - https
+        type: "string"
+      ddl:
+        type: "number"
+      course_id:
+        type: "number"
+      volume:
+        type: "number"
+      update_time:
+        type: "number"
+      state:
+        type: "number"
+  HomeworkSubmit:
+    type: "object"
+    properties:
+      id:
+        type: "number"
+      homework_id:
+        type: "number"
+      student_id:
+        type: "number"
+      file_name:
+        type: "string"
+      submit_time:
+        type: "number"
+      update_time:
+        type: "number"
+      state:
+        type: "number"
+  Student:
+    type: "object"
+    properties:
+      id:
+        type: "number"
+      name:
+        type: "string"
+      institute_id:
+        type: "number"
+      update_time:
+        type: "number"
+      state:
+        type: "number"
+  Institute:
+    type: "object"
+    properties:
+      id:
+        type: "number"
+      name:
+        type: "string"
+      update_time:
+        type: "number"
+      state:
+        type: "number"
+  Admin:
+    type: "object"
+    properties:
+      id:
+        type: "number"
+      role:
+        type: "number"
+      name:
+        type: "string"
+      institute_id:
+        type: "number"
+      password:
+        type: "number"
+      email:
+        type: "string"
+      update_time:
+        type: "number"
+      state:
+        type: "number"
+  AdminCourse:
+    type: "object"
+    properties:
+      id:
+        type: "number"
+      admin_id:
+        type: "number"
+      course_id:
+        type: "number"
+      update_time:
+        type: "number"
+      state:
+        type: "number"

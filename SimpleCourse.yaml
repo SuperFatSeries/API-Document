@@ -1,11 +1,13 @@
 swagger: '2.0'
 info:
   description: 'SimpleCourse API Document'
-  version: '0.1'
+  version: '0.2'
   title: 'SimpleCourse'
 host: 'baidu.com'
 basePath: '/'
 tags:
+- name: back-end user
+  description: all back-end user common API
 - name: admin
   description: Admin
 - name: teacher
@@ -26,6 +28,46 @@ schemes:
 - 'https'
 
 paths:
+# back-end user
+  /user/login:
+    parameters:
+      - name: 'username'
+        in: 'body'
+        description: login username should be a student number or teacher number
+        required: true
+        type: 'number'
+      - name: 'password'
+        in: 'body'
+        description: login password encrypted by MD5
+        required: true
+        type: 'string'
+    put:
+      tags:
+      - back-end user
+      summary: login
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/LoginSuccessResult'
+        others:
+          description: 'Fail'
+          schema:
+            $ref: '#/definitions/Result'
+  /user/logout:
+    delete:
+      tags:
+      - back-end user
+      summary: logout
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Result'
+        400:
+          description: 'Error'
+          schema:
+            $ref: '#/definitions/Result'
 
 # admin
   /admin/signin:
@@ -693,6 +735,16 @@ paths:
             $ref: '#/definitions/Result'
 
 definitions:
+  LoginSuccessResult:
+    type: 'object'
+    properties:
+      status:
+        type: 'number'
+      message:
+        type: 'string'
+      token:
+        type: 'string'
+
   Result:
     type: 'object'
     properties:

@@ -6,8 +6,6 @@ info:
 host: 'baidu.com'
 basePath: '/'
 tags:
-- name: back-end user
-  description: all back-end user common API
 - name: admin
   description: Admin
 - name: teacher
@@ -28,8 +26,8 @@ schemes:
 - 'https'
 
 paths:
-# back-end user
-  /user/login:
+# admin
+  /admin/login:
     parameters:
       - name: 'username'
         in: 'query'
@@ -43,7 +41,7 @@ paths:
         type: 'string'
     put:
       tags:
-      - back-end user
+      - admin
       summary: login
       responses:
         200:
@@ -72,10 +70,10 @@ paths:
           description: 'Fail'
           schema:
             $ref: '#/definitions/Result'
-  /user/logout:
+  /admin/logout:
     delete:
       tags:
-      - back-end user
+      - admin
       summary: logout
       responses:
         200:
@@ -86,10 +84,10 @@ paths:
           description: 'Error'
           schema:
             $ref: '#/definitions/Result'
-  /user/info:
+  /admin/info:
     get:
       tags:
-      - back-end user
+      - admin
       summary: get user info
       responses:
         200:
@@ -117,81 +115,39 @@ paths:
           description: 'Error'
           schema:
             $ref: '#/definitions/Result'
-
-# admin
-  /admin/signin:
-    put:
-      tags:
-      - admin
-      summary: signin
-      responses:
-        200:
-          description: OK
-          schema:
-            $ref: '#/definitions/Result'
-        400:
-          description: 'Error'
-          schema:
-            $ref: '#/definitions/Result'
-
-  /admin/signout:
-    delete:
-      tags:
-      - admin
-      summary: signout
-      responses:
-        200:
-          description: OK
-          schema:
-            $ref: '#/definitions/Result'
-        400:
-          description: 'Error'
-          schema:
-            $ref: '#/definitions/Result'   
-      
-  /admin/signup:
-    put:
-      tags:
-      - admin
-      summary: signup
-      responses:
-        200:
-          description: OK
-          schema:
-            $ref: '#/definitions/Result'
-        400:
-          description: 'Error'
-          schema:
-            $ref: '#/definitions/Result'
-
-# teacher
-  /teacher:
+  /admin/list/{role}:
+    parameters: 
+      - name: 'role'
+        in: 'path'
+        description: 带本参数则根据role过滤admin，不带则获取全部admin列表
+        required: false
+        type: 'number'
     get:
       tags:
-      - teacher
-      summary: get teacher list
-      description: getTeacher
+      - admin
+      summary: get admin list
+      description: getAdmin
       responses:
         200:
           description: OK
           schema:
-            $ref: '#/definitions/Result'
+            $ref: '#/definitions/DataResult'
         400:
           description: 'Error'
           schema:
             $ref: '#/definitions/Result'
 
-  /teacher/{teacher_id}:
+  /admin/{admin_id}:
     parameters: 
-      - name: 'teacher_id'
+      - name: 'admin_id'
         in: 'path'
-        description: ID of pet that needs to be updated
+        description: ID of admin that needs to get the data
         required: true
         type: 'number'
     get:
       tags: 
-      - teacher
-      summary: get teacher detail
+      - admin
+      summary: get admin detail
       responses:
         200:
           description: OK
@@ -203,8 +159,8 @@ paths:
             $ref: '#/definitions/Result'
     post:
       tags: 
-      - teacher
-      summary: add teacher detail
+      - admin
+      summary: add admin detail
       responses:
         200:
           description: OK
@@ -216,8 +172,8 @@ paths:
             $ref: '#/definitions/Result'
     put:
       tags: 
-      - teacher
-      summary: update teacher detail
+      - admin
+      summary: update admin detail
       responses:
         200:
           description: OK
@@ -229,8 +185,8 @@ paths:
             $ref: '#/definitions/Result'
     delete:
       tags: 
-      - teacher
-      summary: delete teacher
+      - admin
+      summary: delete admin
       responses:
         200:
           description: OK
@@ -240,6 +196,83 @@ paths:
           description: 'Error'
           schema:
             $ref: '#/definitions/Result'
+
+# teacher
+  # /teacher:
+  #   get:
+  #     tags:
+  #     - teacher
+  #     summary: get teacher list
+  #     description: getTeacher
+  #     responses:
+  #       200:
+  #         description: OK
+  #         schema:
+  #           $ref: '#/definitions/Result'
+  #       400:
+  #         description: 'Error'
+  #         schema:
+  #           $ref: '#/definitions/Result'
+
+  # /teacher/{teacher_id}:
+  #   parameters: 
+  #     - name: 'teacher_id'
+  #       in: 'path'
+  #       description: ID of pet that needs to be updated
+  #       required: true
+  #       type: 'number'
+  #   get:
+  #     tags: 
+  #     - teacher
+  #     summary: get teacher detail
+  #     responses:
+  #       200:
+  #         description: OK
+  #         schema:
+  #           $ref: '#/definitions/Result'
+  #       400:
+  #         description: 'Error'
+  #         schema:
+  #           $ref: '#/definitions/Result'
+  #   post:
+  #     tags: 
+  #     - teacher
+  #     summary: add teacher detail
+  #     responses:
+  #       200:
+  #         description: OK
+  #         schema:
+  #           $ref: '#/definitions/Result'
+  #       400:
+  #         description: 'Error'
+  #         schema:
+  #           $ref: '#/definitions/Result'
+  #   put:
+  #     tags: 
+  #     - teacher
+  #     summary: update teacher detail
+  #     responses:
+  #       200:
+  #         description: OK
+  #         schema:
+  #           $ref: '#/definitions/Result'
+  #       400:
+  #         description: 'Error'
+  #         schema:
+  #           $ref: '#/definitions/Result'
+  #   delete:
+  #     tags: 
+  #     - teacher
+  #     summary: delete teacher
+  #     responses:
+  #       200:
+  #         description: OK
+  #         schema:
+  #           $ref: '#/definitions/Result'
+  #       400:
+  #         description: 'Error'
+  #         schema:
+  #           $ref: '#/definitions/Result'
             
 # ta
   /course/{course_id}/ta/:
@@ -784,6 +817,17 @@ paths:
             $ref: '#/definitions/Result'
 
 definitions:
+  DataResult:
+    type: 'object'
+    properties:
+      status:
+        type: 'number'
+      message:
+        type: 'string'
+      data:
+        type: 'object'
+        description: 若请求多个数据则返回JSON数组，单个数据则返回JSON对象
+
   Result:
     type: 'object'
     properties:
@@ -937,5 +981,22 @@ definitions:
         type: 'number'
       state:
         type: 'number'
+
+  ResposeCode:
+    type: 'object'
+    properties:
+      1000: '数据拉取成功'
+      1001: '数据新增成功'
+      1002: '数据更新成功'
+      1003: '数据删除成功'
+      1011: '系统错误'
+      1012: '没有token'
+      1013: '没有权限'
+
+      2000: '登录成功'
+      2011: '没有该用户，登录失败'
+      2012: '用户名密码错误，登录失败'
+      2013: ''
+
   
   

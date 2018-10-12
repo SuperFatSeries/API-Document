@@ -109,7 +109,7 @@ paths:
                 type: 'number'
                 description: Table(admin)/id
               email: 
-                type: 'number'
+                type: 'string'
                 description: Table(admin)/email, if null, do not include this data
         400:
           description: 'Error'

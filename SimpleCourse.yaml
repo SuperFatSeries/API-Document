@@ -94,23 +94,23 @@ paths:
           description: OK
           schema:
             type: 'object'
-          properties:
-            status:
-              type: 'number'
-            message:
-              type: 'string'
-            role:
-              type: 'number'
-              description: Table(admin)/role
-            name: 
-              type: 'string'
-              description: Table(admin)/name
-            username: 
-              type: 'number'
-              description: Table(admin)/id
-            email: 
-              type: 'number'
-              description: Table(admin)/email, if null, do not include this data
+            properties:
+              status:
+                type: 'number'
+              message:
+                type: 'string'
+              role:
+                type: 'number'
+                description: Table(admin)/role
+              name: 
+                type: 'string'
+                description: Table(admin)/name
+              username: 
+                type: 'number'
+                description: Table(admin)/id
+              email: 
+                type: 'number'
+                description: Table(admin)/email, if null, do not include this data
         400:
           description: 'Error'
           schema:

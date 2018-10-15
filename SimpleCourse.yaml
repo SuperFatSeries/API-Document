@@ -137,9 +137,9 @@ paths:
           schema:
             $ref: '#/definitions/Result'
 
-  /admin/{admin_id}:
+  /admin/{id}:
     parameters: 
-      - name: 'admin_id'
+      - name: 'id'
         in: 'path'
         description: ID of admin that needs to get the data
         required: true
@@ -275,9 +275,9 @@ paths:
   #           $ref: '#/definitions/Result'
             
 # ta
-  /course/{course_id}/ta/:
+  /course/{id}/ta/:
     parameters: 
-    - name: 'course_id'
+    - name: 'id'
       in: 'path'
       description: ID of pet that needs to be updated
       required: true

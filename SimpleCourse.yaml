@@ -1,1006 +1,1006 @@
-swagger: '2.0'
-info:
-  description: 'SimpleCourse API Document'
-  version: '0.2'
-  title: 'SimpleCourse'
-host: 'http://henryhuo.club:8080/'
-basePath: '/'
-tags:
-- name: admin
-  description: Admin
-- name: teacher
-  description: Teacher
-- name: ta
-  description: TA
-- name: student
-  description: Student
-- name: course
-  description: Course
-- name: courseware
-  description: CourseWare
-- name: homework
-  description: Homework
-- name: submit
-  description: Homework submit
-schemes:
+swagger '2.0'
+info
+  description 'SimpleCourse API Document'
+  version '0.2'
+  title 'SimpleCourse'
+host 'httphenryhuo.club8080'
+basePath ''
+tags
+- name admin
+  description Admin
+- name teacher
+  description Teacher
+- name ta
+  description TA
+- name student
+  description Student
+- name course
+  description Course
+- name courseware
+  description CourseWare
+- name homework
+  description Homework
+- name submit
+  description Homework submit
+schemes
 - 'https'
 
-paths:
+paths
 # admin
-  /admin/login:
-    parameters:
-      - name: 'id'
-        in: 'query'
-        description: login id should be a student number or teacher number
-        required: true
-        type: 'number'
-      - name: 'password'
-        in: 'query'
-        description: login password encrypted by MD5
-        required: true
-        type: 'string'
-    put:
-      tags:
+  adminlogin
+    parameters
+      - name 'id'
+        in 'query'
+        description login id should be a student number or teacher number
+        required true
+        type 'number'
+      - name 'password'
+        in 'query'
+        description login password encrypted by MD5
+        required true
+        type 'string'
+    put
+      tags
       - admin
-      summary: login
-      responses:
-        200:
-          description: '登录成功'
-          schema:
+      summary login
+      responses
+        200
+          description '登录成功'
+          schema
             # #值类型
-            # type: object
+            # type object
             # #定义属性
-            # properties:
+            # properties
             #   #属性名
-            #     status:
+            #     status
             #       #类型
-            #       type: boolean
+            #       type boolean
             #       #描述
-            #       description: 是否成功
-            type: 'object'
-            properties:
-              status:
-                type: 'number'
-              message:
-                type: 'string'
-              token:
-                type: 'string'
-                description: '登录成功则带有token字段，否则不带'
+            #       description 是否成功
+            type 'object'
+            properties
+              status
+                type 'number'
+              message
+                type 'string'
+              token
+                type 'string'
+                description '登录成功则带有token字段，否则不带'
                 
-        403:
-          description: '没有该用户，登录失败 or 用户名密码错误，登录失败'
-          schema:
-            $ref: '#/definitions/Result'
-  /admin/logout:
-    delete:
-      tags:
+        403
+          description '没有该用户，登录失败 or 用户名密码错误，登录失败'
+          schema
+            $ref '#definitionsResult'
+  adminlogout
+    delete
+      tags
       - admin
-      summary: logout
-      responses:
-        200:
-          description: '登出成功'
-          schema:
-            $ref: '#/definitions/Result'
-        401:
-          description: 'token不存在'
-          schema:
-            $ref: '#/definitions/Result'
-  /admin/info:
-    get:
-      tags:
+      summary logout
+      responses
+        200
+          description '登出成功'
+          schema
+            $ref '#definitionsResult'
+        401
+          description 'token不存在'
+          schema
+            $ref '#definitionsResult'
+  admininfo
+    get
+      tags
       - admin
-      summary: get user info
-      responses:
-        200:
-          description: '数据拉取成功'
-          schema:
-            type: 'object'
-            properties:
-              state:
-                type: 'number'
-              message:
-                type: 'string'
-              role:
-                type: 'number'
-                description: Table(admin)/role
-              name: 
-                type: 'string'
-                description: Table(admin)/name
-              id: 
-                type: 'number'
-                description: Table(admin)/id
-              email: 
-                type: 'string'
-                description: Table(admin)/email, if null, do not include this data
-        403:
-          description: '没有该用户，查询失败'
-          schema:
-            $ref: '#/definitions/Result'
-  /admin/list/{role}:
-    parameters: 
-      - name: 'role'
-        in: 'path'
-        description: 带本参数则根据role过滤admin，不带则获取全部admin列表
-        required: false
-        type: 'number'
-    get:
-      tags:
+      summary get user info
+      responses
+        200
+          description '数据拉取成功'
+          schema
+            type 'object'
+            properties
+              state
+                type 'number'
+              message
+                type 'string'
+              role
+                type 'number'
+                description Table(admin)role
+              name 
+                type 'string'
+                description Table(admin)name
+              id 
+                type 'number'
+                description Table(admin)id
+              email 
+                type 'string'
+                description Table(admin)email, if null, do not include this data
+        403
+          description '没有该用户，查询失败'
+          schema
+            $ref '#definitionsResult'
+  adminlist{role}
+    parameters 
+      - name 'role'
+        in 'path'
+        description 带本参数则根据role过滤admin，不带则获取全部admin列表
+        required false
+        type 'number'
+    get
+      tags
       - admin
-      summary: get admin list
-      description: getAdmin
-      responses:
-        200:
-          description: '数据拉取成功'
-          schema:
-            $ref: '#/definitions/DataResult'
-        401:
-          description: 'token不存在'
-          schema:
-            $ref: '#/definitions/Result'
+      summary get admin list
+      description getAdmin
+      responses
+        200
+          description '数据拉取成功'
+          schema
+            $ref '#definitionsDataResult'
+        401
+          description 'token不存在'
+          schema
+            $ref '#definitionsResult'
 
-  /admin/{admin_id}:
-    parameters: 
-      - name: 'admin_id'
-        in: 'path'
-        description: ID of admin that needs to get the data
-        required: true
-        type: 'number'
-    get:
-      tags: 
+  admin{admin_id}
+    parameters 
+      - name 'admin_id'
+        in 'path'
+        description ID of admin that needs to get the data
+        required true
+        type 'number'
+    get
+      tags 
       - admin
-      summary: get admin detail
-      responses:
-        200:
-          description: '数据拉取成功'
-          schema:
-            $ref: '#/definitions/Result'
-        401:
-          description: 'token不存在'
-          schema:
-            $ref: '#/definitions/Result'
-    post:
-      tags: 
+      summary get admin detail
+      responses
+        200
+          description '数据拉取成功'
+          schema
+            $ref '#definitionsResult'
+        401
+          description 'token不存在'
+          schema
+            $ref '#definitionsResult'
+    post
+      tags 
       - admin
-      summary: update admin detail
-      responses:
-        200:
-          description: '数据更新成功'
-          schema:
-            $ref: '#/definitions/Result'
-        403:
-          description: '没有该用户，更新失败'
-          schema:
-            $ref: '#/definitions/Result'
-    put:
-      tags: 
+      summary update admin detail
+      responses
+        200
+          description '数据更新成功'
+          schema
+            $ref '#definitionsResult'
+        403
+          description '没有该用户，更新失败'
+          schema
+            $ref '#definitionsResult'
+    put
+      tags 
       - admin
-      summary: add admin
-      responses:
-        200:
-          description: '数据新增成功'
-          schema:
-            $ref: '#/definitions/Result'
-        401:
-            description: 'token不存在'
-          schema:
-            $ref: '#/definitions/Result'
-    delete:
-      tags: 
+      summary add admin
+      responses
+        200
+          description '数据新增成功'
+          schema
+            $ref '#definitionsResult'
+        401
+            description 'token不存在'
+          schema
+            $ref '#definitionsResult'
+    delete
+      tags 
       - admin
-      summary: delete admin
-      responses:
-        200:
-          description: '数据删除成功'
-          schema:
-            $ref: '#/definitions/Result'
-        403:
-          description: '没有该用户，删除失败'
-          schema:
-            $ref: '#/definitions/Result'
+      summary delete admin
+      responses
+        200
+          description '数据删除成功'
+          schema
+            $ref '#definitionsResult'
+        403
+          description '没有该用户，删除失败'
+          schema
+            $ref '#definitionsResult'
 
 # teacher
-  # /teacher:
-  #   get:
-  #     tags:
+  # teacher
+  #   get
+  #     tags
   #     - teacher
-  #     summary: get teacher list
-  #     description: getTeacher
-  #     responses:
-  #       200:
-  #         description: OK
-  #         schema:
-  #           $ref: '#/definitions/Result'
-  #       400:
-  #         description: 'Error'
-  #         schema:
-  #           $ref: '#/definitions/Result'
+  #     summary get teacher list
+  #     description getTeacher
+  #     responses
+  #       200
+  #         description OK
+  #         schema
+  #           $ref '#definitionsResult'
+  #       400
+  #         description 'Error'
+  #         schema
+  #           $ref '#definitionsResult'
 
-  # /teacher/{teacher_id}:
-  #   parameters: 
-  #     - name: 'teacher_id'
-  #       in: 'path'
-  #       description: ID of pet that needs to be updated
-  #       required: true
-  #       type: 'number'
-  #   get:
-  #     tags: 
+  # teacher{teacher_id}
+  #   parameters 
+  #     - name 'teacher_id'
+  #       in 'path'
+  #       description ID of pet that needs to be updated
+  #       required true
+  #       type 'number'
+  #   get
+  #     tags 
   #     - teacher
-  #     summary: get teacher detail
-  #     responses:
-  #       200:
-  #         description: OK
-  #         schema:
-  #           $ref: '#/definitions/Result'
-  #       400:
-  #         description: 'Error'
-  #         schema:
-  #           $ref: '#/definitions/Result'
-  #   post:
-  #     tags: 
+  #     summary get teacher detail
+  #     responses
+  #       200
+  #         description OK
+  #         schema
+  #           $ref '#definitionsResult'
+  #       400
+  #         description 'Error'
+  #         schema
+  #           $ref '#definitionsResult'
+  #   post
+  #     tags 
   #     - teacher
-  #     summary: add teacher detail
-  #     responses:
-  #       200:
-  #         description: OK
-  #         schema:
-  #           $ref: '#/definitions/Result'
-  #       400:
-  #         description: 'Error'
-  #         schema:
-  #           $ref: '#/definitions/Result'
-  #   put:
-  #     tags: 
+  #     summary add teacher detail
+  #     responses
+  #       200
+  #         description OK
+  #         schema
+  #           $ref '#definitionsResult'
+  #       400
+  #         description 'Error'
+  #         schema
+  #           $ref '#definitionsResult'
+  #   put
+  #     tags 
   #     - teacher
-  #     summary: update teacher detail
-  #     responses:
-  #       200:
-  #         description: OK
-  #         schema:
-  #           $ref: '#/definitions/Result'
-  #       400:
-  #         description: 'Error'
-  #         schema:
-  #           $ref: '#/definitions/Result'
-  #   delete:
-  #     tags: 
+  #     summary update teacher detail
+  #     responses
+  #       200
+  #         description OK
+  #         schema
+  #           $ref '#definitionsResult'
+  #       400
+  #         description 'Error'
+  #         schema
+  #           $ref '#definitionsResult'
+  #   delete
+  #     tags 
   #     - teacher
-  #     summary: delete teacher
-  #     responses:
-  #       200:
-  #         description: OK
-  #         schema:
-  #           $ref: '#/definitions/Result'
-  #       400:
-  #         description: 'Error'
-  #         schema:
-  #           $ref: '#/definitions/Result'
+  #     summary delete teacher
+  #     responses
+  #       200
+  #         description OK
+  #         schema
+  #           $ref '#definitionsResult'
+  #       400
+  #         description 'Error'
+  #         schema
+  #           $ref '#definitionsResult'
             
 # ta
-  /course/{course_id}/ta/:
-    parameters: 
-    - name: 'course_id'
-      in: 'path'
-      description: ID of pet that needs to be updated
-      required: true
-      type: 'number'
-    get:
-      tags:
+  course{course_id}ta
+    parameters 
+    - name 'course_id'
+      in 'path'
+      description ID of pet that needs to be updated
+      required true
+      type 'number'
+    get
+      tags
       - ta
-      summary: get TA list
-      responses:
-        200:
-          description: OK
-          schema:
-            $ref: '#/definitions/Result'
-        400:
-          description: 'Error'
-          schema:
-            $ref: '#/definitions/Result'
+      summary get TA list
+      responses
+        200
+          description OK
+          schema
+            $ref '#definitionsResult'
+        400
+          description 'Error'
+          schema
+            $ref '#definitionsResult'
 
-  /course/{course_id}/ta/{ta_id}:
-    parameters: 
-    - name: 'course_id'
-      in: 'path'
-      description: ID of pet that needs to be updated
-      required: true
-      type: 'number'
-    - name: 'ta_id'
-      in: 'path'
-      description: ID of pet that needs to be updated
-      required: true
-      type: 'number'
-    get:
-      tags:
+  course{course_id}ta{ta_id}
+    parameters 
+    - name 'course_id'
+      in 'path'
+      description ID of pet that needs to be updated
+      required true
+      type 'number'
+    - name 'ta_id'
+      in 'path'
+      description ID of pet that needs to be updated
+      required true
+      type 'number'
+    get
+      tags
       - ta
-      summary: get TA detail
-      responses:
-        200:
-          description: OK
-          schema:
-            $ref: '#/definitions/Result'
-        400:
-          description: 'Error'
-          schema:
-            $ref: '#/definitions/Result'
-    post:
-      tags:
+      summary get TA detail
+      responses
+        200
+          description OK
+          schema
+            $ref '#definitionsResult'
+        400
+          description 'Error'
+          schema
+            $ref '#definitionsResult'
+    post
+      tags
       - ta
-      summary: add TA detail
-      responses:
-        200:
-          description: OK
-          schema:
-            $ref: '#/definitions/Result'
-        400:
-          description: 'Error'
-          schema:
-            $ref: '#/definitions/Result'
-    put:
-      tags:
+      summary add TA detail
+      responses
+        200
+          description OK
+          schema
+            $ref '#definitionsResult'
+        400
+          description 'Error'
+          schema
+            $ref '#definitionsResult'
+    put
+      tags
       - ta
-      summary: update TA detail
-      responses:
-        200:
-          description: OK
-          schema:
-            $ref: '#/definitions/Result'
-        400:
-          description: 'Error'
-          schema:
-            $ref: '#/definitions/Result'
-    delete:
-      tags:
+      summary update TA detail
+      responses
+        200
+          description OK
+          schema
+            $ref '#definitionsResult'
+        400
+          description 'Error'
+          schema
+            $ref '#definitionsResult'
+    delete
+      tags
       - ta
-      summary: delete TA
-      responses:
-        200:
-          description: OK
-          schema:
-            $ref: '#/definitions/Result'
-        400:
-          description: 'Error'
-          schema:
-            $ref: '#/definitions/Result'
+      summary delete TA
+      responses
+        200
+          description OK
+          schema
+            $ref '#definitionsResult'
+        400
+          description 'Error'
+          schema
+            $ref '#definitionsResult'
 
 # student
-  /student:
-    get:
-      tags:
+  student
+    get
+      tags
       - student
-      summary: get student list
-      description: getTeacher
-      responses:
-        200:
-          description: OK
-          schema:
-            $ref: '#/definitions/Result'
-        400:
-          description: 'Error'
-          schema:
-            $ref: '#/definitions/Result'
+      summary get student list
+      description getTeacher
+      responses
+        200
+          description OK
+          schema
+            $ref '#definitionsResult'
+        400
+          description 'Error'
+          schema
+            $ref '#definitionsResult'
 
-  /student/{student_id}:
-    parameters: 
-      - name: 'student_id'
-        in: 'path'
-        description: ID of pet that needs to be updated
-        required: true
-        type: 'number'
-    get:
-      tags: 
+  student{student_id}
+    parameters 
+      - name 'student_id'
+        in 'path'
+        description ID of pet that needs to be updated
+        required true
+        type 'number'
+    get
+      tags 
       - student
-      summary: get student detail
-      responses:
-        200:
-          description: OK
-          schema:
-            $ref: '#/definitions/Result'
-        400:
-          description: 'Error'
-          schema:
-            $ref: '#/definitions/Result'
-    post:
-      tags: 
+      summary get student detail
+      responses
+        200
+          description OK
+          schema
+            $ref '#definitionsResult'
+        400
+          description 'Error'
+          schema
+            $ref '#definitionsResult'
+    post
+      tags 
       - student
-      summary: add student detail
-      responses:
-        200:
-          description: OK
-          schema:
-            $ref: '#/definitions/Result'
-        400:
-          description: 'Error'
-          schema:
-            $ref: '#/definitions/Result'
-    put:
-      tags: 
+      summary add student detail
+      responses
+        200
+          description OK
+          schema
+            $ref '#definitionsResult'
+        400
+          description 'Error'
+          schema
+            $ref '#definitionsResult'
+    put
+      tags 
       - student
-      summary: update student detail
-      responses:
-        200:
-          description: OK
-          schema:
-            $ref: '#/definitions/Result'
-        400:
-          description: 'Error'
-          schema:
-            $ref: '#/definitions/Result'
-    delete:
-      tags: 
+      summary update student detail
+      responses
+        200
+          description OK
+          schema
+            $ref '#definitionsResult'
+        400
+          description 'Error'
+          schema
+            $ref '#definitionsResult'
+    delete
+      tags 
       - student
-      summary: delete student
-      responses:
-        200:
-          description: OK
-          schema:
-            $ref: '#/definitions/Result'
-        400:
-          description: 'Error'
-          schema:
-            $ref: '#/definitions/Result'
+      summary delete student
+      responses
+        200
+          description OK
+          schema
+            $ref '#definitionsResult'
+        400
+          description 'Error'
+          schema
+            $ref '#definitionsResult'
 
 # course
-  /course:
-    get:
-      tags:
+  course
+    get
+      tags
       - course
-      summary: get course list
-      responses:
-        200:
-          description: OK
-          schema:
-            $ref: '#/definitions/Result'
-        400:
-          description: 'Error'
-          schema:
-            $ref: '#/definitions/Result'
+      summary get course list
+      responses
+        200
+          description OK
+          schema
+            $ref '#definitionsResult'
+        400
+          description 'Error'
+          schema
+            $ref '#definitionsResult'
 
-  /course/{course_id}:
-    parameters: 
-    - name: 'course_id'
-      in: 'path'
-      description: ID of pet that needs to be updated
-      required: true
-      type: 'number'
-    get:
-      tags:
+  course{course_id}
+    parameters 
+    - name 'course_id'
+      in 'path'
+      description ID of pet that needs to be updated
+      required true
+      type 'number'
+    get
+      tags
       - course
-      summary: get course detail
-      responses:
-        200:
-          description: OK
-          schema:
-            $ref: '#/definitions/Result'
-        400:
-          description: 'Error'
-          schema:
-            $ref: '#/definitions/Result'
-    post:
-      tags:
+      summary get course detail
+      responses
+        200
+          description OK
+          schema
+            $ref '#definitionsResult'
+        400
+          description 'Error'
+          schema
+            $ref '#definitionsResult'
+    post
+      tags
       - course
-      summary: add course detail
-      responses:
-        200:
-          description: OK
-          schema:
-            $ref: '#/definitions/Result'
-        400:
-          description: 'Error'
-          schema:
-            $ref: '#/definitions/Result'
-    put:
-      tags:
+      summary add course detail
+      responses
+        200
+          description OK
+          schema
+            $ref '#definitionsResult'
+        400
+          description 'Error'
+          schema
+            $ref '#definitionsResult'
+    put
+      tags
       - course
-      summary: update course detail
-      responses:
-        200:
-          description: OK
-          schema:
-            $ref: '#/definitions/Result'
-        400:
-          description: 'Error'
-          schema:
-            $ref: '#/definitions/Result'
-    delete:
-      tags:
+      summary update course detail
+      responses
+        200
+          description OK
+          schema
+            $ref '#definitionsResult'
+        400
+          description 'Error'
+          schema
+            $ref '#definitionsResult'
+    delete
+      tags
       - course
-      summary: delete course
-      responses:
-        200:
-          description: OK
-          schema:
-            $ref: '#/definitions/Result'
-        400:
-          description: 'Error'
-          schema:
-            $ref: '#/definitions/Result'
+      summary delete course
+      responses
+        200
+          description OK
+          schema
+            $ref '#definitionsResult'
+        400
+          description 'Error'
+          schema
+            $ref '#definitionsResult'
             
 # courseware
-  /course/{course_id}/courseware:
-    parameters: 
-    - name: 'course_id'
-      in: 'path'
-      description: ID of pet that needs to be updated
-      required: true
-      type: 'number'
-    get:
-      tags:
+  course{course_id}courseware
+    parameters 
+    - name 'course_id'
+      in 'path'
+      description ID of pet that needs to be updated
+      required true
+      type 'number'
+    get
+      tags
       - courseware
-      summary: get course[i] courseware list
-      responses:
-        200:
-          description: OK
-          schema:
-            $ref: '#/definitions/Result'
-        400:
-          description: 'Error'
-          schema:
-            $ref: '#/definitions/Result'
+      summary get course[i] courseware list
+      responses
+        200
+          description OK
+          schema
+            $ref '#definitionsResult'
+        400
+          description 'Error'
+          schema
+            $ref '#definitionsResult'
 
-  /course/{course_id}/courseware/{courseware_id}:
-    parameters: 
-    - name: 'course_id'
-      in: 'path'
-      description: ID of pet that needs to be updated
-      required: true
-      type: 'number'
-    - name: 'courseware_id'
-      in: 'path'
-      description: ID of pet that needs to be updated
-      required: true
-      type: 'number'
-    get:
-      tags:
+  course{course_id}courseware{courseware_id}
+    parameters 
+    - name 'course_id'
+      in 'path'
+      description ID of pet that needs to be updated
+      required true
+      type 'number'
+    - name 'courseware_id'
+      in 'path'
+      description ID of pet that needs to be updated
+      required true
+      type 'number'
+    get
+      tags
       - courseware
-      summary: get courseware detail
-      responses:
-        200:
-          description: OK
-          schema:
-            $ref: '#/definitions/Result'
-        400:
-          description: 'Error'
-          schema:
-            $ref: '#/definitions/Result'
-    post:
-      tags:
+      summary get courseware detail
+      responses
+        200
+          description OK
+          schema
+            $ref '#definitionsResult'
+        400
+          description 'Error'
+          schema
+            $ref '#definitionsResult'
+    post
+      tags
       - courseware
-      summary: add courseware detail
-      responses:
-        200:
-          description: OK
-          schema:
-            $ref: '#/definitions/Result'
-        400:
-          description: 'Error'
-          schema:
-            $ref: '#/definitions/Result'
-    put:
-      tags:
+      summary add courseware detail
+      responses
+        200
+          description OK
+          schema
+            $ref '#definitionsResult'
+        400
+          description 'Error'
+          schema
+            $ref '#definitionsResult'
+    put
+      tags
       - courseware
-      summary: update courseware detail
-      responses:
-        200:
-          description: OK
-          schema:
-            $ref: '#/definitions/Result'
-        400:
-          description: 'Error'
-          schema:
-            $ref: '#/definitions/Result'
-    delete:
-      tags:
+      summary update courseware detail
+      responses
+        200
+          description OK
+          schema
+            $ref '#definitionsResult'
+        400
+          description 'Error'
+          schema
+            $ref '#definitionsResult'
+    delete
+      tags
       - courseware
-      summary: delete courseware
-      responses:
-        200:
-          description: OK
-          schema:
-            $ref: '#/definitions/Result'
-        400:
-          description: 'Error'
-          schema:
-            $ref: '#/definitions/Result'
+      summary delete courseware
+      responses
+        200
+          description OK
+          schema
+            $ref '#definitionsResult'
+        400
+          description 'Error'
+          schema
+            $ref '#definitionsResult'
             
 # homework
-  /course/{course_id}/homework:
-    parameters: 
-    - name: 'course_id'
-      in: 'path'
-      description: ID of pet that needs to be updated
-      required: true
-      type: 'number'
-    get:
-      tags:
+  course{course_id}homework
+    parameters 
+    - name 'course_id'
+      in 'path'
+      description ID of pet that needs to be updated
+      required true
+      type 'number'
+    get
+      tags
       - homework
-      summary: get course[i] homework list
-      responses:
-        200:
-          description: OK
-          schema:
-            $ref: '#/definitions/Result'
-        400:
-          description: 'Error'
-          schema:
-            $ref: '#/definitions/Result'
+      summary get course[i] homework list
+      responses
+        200
+          description OK
+          schema
+            $ref '#definitionsResult'
+        400
+          description 'Error'
+          schema
+            $ref '#definitionsResult'
 
-  /course/{course_id}/homework/{homework_id}:
-    parameters: 
-    - name: 'course_id'
-      in: 'path'
-      description: ID of pet that needs to be updated
-      required: true
-      type: 'number'
-    - name: 'homework_id'
-      in: 'path'
-      description: ID of pet that needs to be updated
-      required: true
-      type: 'number'
-    get:
-      tags:
+  course{course_id}homework{homework_id}
+    parameters 
+    - name 'course_id'
+      in 'path'
+      description ID of pet that needs to be updated
+      required true
+      type 'number'
+    - name 'homework_id'
+      in 'path'
+      description ID of pet that needs to be updated
+      required true
+      type 'number'
+    get
+      tags
       - homework
-      summary: get homework detail
-      responses:
-        200:
-          description: OK
-          schema:
-            $ref: '#/definitions/Result'
-        400:
-          description: 'Error'
-          schema:
-            $ref: '#/definitions/Result'
-    post:
-      tags:
+      summary get homework detail
+      responses
+        200
+          description OK
+          schema
+            $ref '#definitionsResult'
+        400
+          description 'Error'
+          schema
+            $ref '#definitionsResult'
+    post
+      tags
       - homework
-      summary: add homework detail
-      responses:
-        200:
-          description: OK
-          schema:
-            $ref: '#/definitions/Result'
-        400:
-          description: 'Error'
-          schema:
-            $ref: '#/definitions/Result'
-    put:
-      tags:
+      summary add homework detail
+      responses
+        200
+          description OK
+          schema
+            $ref '#definitionsResult'
+        400
+          description 'Error'
+          schema
+            $ref '#definitionsResult'
+    put
+      tags
       - homework
-      summary: update homework detail
-      responses:
-        200:
-          description: OK
-          schema:
-            $ref: '#/definitions/Result'
-        400:
-          description: 'Error'
-          schema:
-            $ref: '#/definitions/Result'
-    delete:
-      tags:
+      summary update homework detail
+      responses
+        200
+          description OK
+          schema
+            $ref '#definitionsResult'
+        400
+          description 'Error'
+          schema
+            $ref '#definitionsResult'
+    delete
+      tags
       - homework
-      summary: delete homework
-      responses:
-        200:
-          description: OK
-          schema:
-            $ref: '#/definitions/Result'
-        400:
-          description: 'Error'
-          schema:
-            $ref: '#/definitions/Result'
+      summary delete homework
+      responses
+        200
+          description OK
+          schema
+            $ref '#definitionsResult'
+        400
+          description 'Error'
+          schema
+            $ref '#definitionsResult'
             
 # submit
-  /course/{course_id}/homework/{homework_id}/submit:
-    parameters: 
-    - name: 'course_id'
-      in: 'path'
-      description: ID of pet that needs to be updated
-      required: true
-      type: 'number'
-    - name: 'homework_id'
-      in: 'path'
-      description: ID of pet that needs to be updated
-      required: true
-      type: 'number'
-    get:
-      tags:
+  course{course_id}homework{homework_id}submit
+    parameters 
+    - name 'course_id'
+      in 'path'
+      description ID of pet that needs to be updated
+      required true
+      type 'number'
+    - name 'homework_id'
+      in 'path'
+      description ID of pet that needs to be updated
+      required true
+      type 'number'
+    get
+      tags
       - submit
-      summary: get course[i] homework[j] submit list
-      responses:
-        200:
-          description: OK
-          schema:
-            $ref: '#/definitions/Result'
-        400:
-          description: 'Error'
-          schema:
-            $ref: '#/definitions/Result'
+      summary get course[i] homework[j] submit list
+      responses
+        200
+          description OK
+          schema
+            $ref '#definitionsResult'
+        400
+          description 'Error'
+          schema
+            $ref '#definitionsResult'
 
-  /course/{course_id}/homework/{homework_id}/submit/{submit_id}:
-    parameters: 
-    - name: 'course_id'
-      in: 'path'
-      description: ID of pet that needs to be updated
-      required: true
-      type: 'number'
-    - name: 'homework_id'
-      in: 'path'
-      description: ID of pet that needs to be updated
-      required: true
-      type: 'number'
-    - name: 'submit_id'
-      in: 'path'
-      description: ID of pet that needs to be updated
-      required: true
-      type: 'number'
-    get:
-      tags:
+  course{course_id}homework{homework_id}submit{submit_id}
+    parameters 
+    - name 'course_id'
+      in 'path'
+      description ID of pet that needs to be updated
+      required true
+      type 'number'
+    - name 'homework_id'
+      in 'path'
+      description ID of pet that needs to be updated
+      required true
+      type 'number'
+    - name 'submit_id'
+      in 'path'
+      description ID of pet that needs to be updated
+      required true
+      type 'number'
+    get
+      tags
       - submit
-      summary: get submit detail
-      responses:
-        200:
-          description: OK
-          schema:
-            $ref: '#/definitions/Result'
-        400:
-          description: 'Error'
-          schema:
-            $ref: '#/definitions/Result'
-    post:
-      tags:
+      summary get submit detail
+      responses
+        200
+          description OK
+          schema
+            $ref '#definitionsResult'
+        400
+          description 'Error'
+          schema
+            $ref '#definitionsResult'
+    post
+      tags
       - submit
-      summary: add submit detail
-      responses:
-        200:
-          description: OK
-          schema:
-            $ref: '#/definitions/Result'
-        400:
-          description: 'Error'
-          schema:
-            $ref: '#/definitions/Result'
-    put:
-      tags:
+      summary add submit detail
+      responses
+        200
+          description OK
+          schema
+            $ref '#definitionsResult'
+        400
+          description 'Error'
+          schema
+            $ref '#definitionsResult'
+    put
+      tags
       - submit
-      summary: update submit detail
-      responses:
-        200:
-          description: OK
-          schema:
-            $ref: '#/definitions/Result'
-        400:
-          description: 'Error'
-          schema:
-            $ref: '#/definitions/Result'
-    delete:
-      tags:
+      summary update submit detail
+      responses
+        200
+          description OK
+          schema
+            $ref '#definitionsResult'
+        400
+          description 'Error'
+          schema
+            $ref '#definitionsResult'
+    delete
+      tags
       - submit
-      summary: delete submit
-      responses:
-        200:
-          description: OK
-          schema:
-            $ref: '#/definitions/Result'
-        400:
-          description: 'Error'
-          schema:
-            $ref: '#/definitions/Result'
+      summary delete submit
+      responses
+        200
+          description OK
+          schema
+            $ref '#definitionsResult'
+        400
+          description 'Error'
+          schema
+            $ref '#definitionsResult'
             
-  /course/{course_id}/homework/{homework_id}/student/{student_id}:
-    parameters: 
-    - name: 'course_id'
-      in: 'path'
-      description: ID of pet that needs to be updated
-      required: true
-      type: 'number'
-    - name: 'homework_id'
-      in: 'path'
-      description: ID of pet that needs to be updated
-      required: true
-      type: 'number'
-    - name: 'student_id'
-      in: 'path'
-      description: ID of pet that needs to be updated
-      required: true
-      type: 'number'
-    post:
-      tags:
+  course{course_id}homework{homework_id}student{student_id}
+    parameters 
+    - name 'course_id'
+      in 'path'
+      description ID of pet that needs to be updated
+      required true
+      type 'number'
+    - name 'homework_id'
+      in 'path'
+      description ID of pet that needs to be updated
+      required true
+      type 'number'
+    - name 'student_id'
+      in 'path'
+      description ID of pet that needs to be updated
+      required true
+      type 'number'
+    post
+      tags
       - submit
-      summary: student submit api
-      responses:
-        200:
-          description: OK
-          schema:
-            $ref: '#/definitions/Result'
-        400:
-          description: 'Error'
-          schema:
-            $ref: '#/definitions/Result'
+      summary student submit api
+      responses
+        200
+          description OK
+          schema
+            $ref '#definitionsResult'
+        400
+          description 'Error'
+          schema
+            $ref '#definitionsResult'
 
-definitions:
-  DataResult:
-    type: 'object'
-    properties:
-      status:
-        type: 'number'
-      message:
-        type: 'string'
-      data:
-        type: 'object'
-        description: 若请求多个数据则返回JSON数组，单个数据则返回JSON对象
+definitions
+  DataResult
+    type 'object'
+    properties
+      status
+        type 'number'
+      message
+        type 'string'
+      data
+        type 'object'
+        description 若请求多个数据则返回JSON数组，单个数据则返回JSON对象
 
-  Result:
-    type: 'object'
-    properties:
-      status:
-        type: 'number'
-      message:
-        type: 'string'
+  Result
+    type 'object'
+    properties
+      status
+        type 'number'
+      message
+        type 'string'
         
-  Course:
-    type: 'object'
-    properties:
-      id:
-        type: 'number'
-      name:
-        type: 'string'
-      info:
-        type: 'string'
-      capacity:
-        type: 'number'
-      period:
-        type: 'string'
-      update_time:
-        type: 'number'
-      state:
-        type: 'number'
+  Course
+    type 'object'
+    properties
+      id
+        type 'number'
+      name
+        type 'string'
+      info
+        type 'string'
+      capacity
+        type 'number'
+      period
+        type 'string'
+      update_time
+        type 'number'
+      state
+        type 'number'
     
-  Courseware:
-    type: 'object'
-    properties:
-      status:
-        type: 'number'
-      message:
-        type: 'string'
-      update_time:
-        type: 'number'
-      state:
-        type: 'number'
+  Courseware
+    type 'object'
+    properties
+      status
+        type 'number'
+      message
+        type 'string'
+      update_time
+        type 'number'
+      state
+        type 'number'
   
-  Notification:
-    type: 'object'
-    properties:
-      id:
-        type: 'number'
-      course_id:
-        type: 'number'
-      title:
-        type: 'string'
-      content:
-        type: 'string'
-      create_time:
-        type: 'number'
-      update_time:
-        type: 'number'
-      state:
-        type: 'number' 
+  Notification
+    type 'object'
+    properties
+      id
+        type 'number'
+      course_id
+        type 'number'
+      title
+        type 'string'
+      content
+        type 'string'
+      create_time
+        type 'number'
+      update_time
+        type 'number'
+      state
+        type 'number' 
 
-  Homework:
-    type: 'object'
-    properties:
-      id:
-        type: 'number'
-      requirement:
-        type: 'string'
-      name:
-        type: 'string'
-      ddl:
-        type: 'number'
-      course_id:
-        type: 'number'
-      volume:
-        type: 'number'
-      update_time:
-        type: 'number'
-      state:
-        type: 'number'
+  Homework
+    type 'object'
+    properties
+      id
+        type 'number'
+      requirement
+        type 'string'
+      name
+        type 'string'
+      ddl
+        type 'number'
+      course_id
+        type 'number'
+      volume
+        type 'number'
+      update_time
+        type 'number'
+      state
+        type 'number'
   
-  HomeworkSubmit:
-    type: 'object'
-    properties:
-      id:
-        type: 'number'
-      homework_id:
-        type: 'number'
-      student_id:
-        type: 'number'
-      file_name:
-        type: 'string'
-      submit_time:
-        type: 'number'
-      update_time:
-        type: 'number'
-      state:
-        type: 'number'
+  HomeworkSubmit
+    type 'object'
+    properties
+      id
+        type 'number'
+      homework_id
+        type 'number'
+      student_id
+        type 'number'
+      file_name
+        type 'string'
+      submit_time
+        type 'number'
+      update_time
+        type 'number'
+      state
+        type 'number'
   
-  Student:
-    type: 'object'
-    properties:
-      id:
-        type: 'number'
-      name:
-        type: 'string'
-      institute_id:
-        type: 'number'
-      update_time:
-        type: 'number'
-      state:
-        type: 'number'
+  Student
+    type 'object'
+    properties
+      id
+        type 'number'
+      name
+        type 'string'
+      institute_id
+        type 'number'
+      update_time
+        type 'number'
+      state
+        type 'number'
         
-  Institute:
-    type: 'object'
-    properties:
-      id:
-        type: 'number'
-      name:
-        type: 'string'
-      update_time:
-        type: 'number'
-      state:
-        type: 'number'
+  Institute
+    type 'object'
+    properties
+      id
+        type 'number'
+      name
+        type 'string'
+      update_time
+        type 'number'
+      state
+        type 'number'
         
-  Admin:
-    type: 'object'
-    properties:
-      id:
-        type: 'number'
-      role:
-        type: 'number'
-      name:
-        type: 'string'
-      institute_id:
-        type: 'number'
-      password:
-        type: 'number'
-      email:
-        type: 'string'
-      update_time:
-        type: 'number'
-      state:
-        type: 'number'
+  Admin
+    type 'object'
+    properties
+      id
+        type 'number'
+      role
+        type 'number'
+      name
+        type 'string'
+      institute_id
+        type 'number'
+      password
+        type 'number'
+      email
+        type 'string'
+      update_time
+        type 'number'
+      state
+        type 'number'
 
-  AdminCourse:
-    type: 'object'
-    properties:
-      id:
-        type: 'number'
-      admin_id:
-        type: 'number'
-      course_id:
-        type: 'number'
-      update_time:
-        type: 'number'
-      state:
-        type: 'number'
+  AdminCourse
+    type 'object'
+    properties
+      id
+        type 'number'
+      admin_id
+        type 'number'
+      course_id
+        type 'number'
+      update_time
+        type 'number'
+      state
+        type 'number'
 
-  ResposeCode:
-    type: 'object'
-    properties:
-      1000: '数据拉取成功'
-      1001: '数据新增成功'
-      1002: '数据更新成功'
-      1003: '数据删除成功'
-      1011: '系统错误'
-      1012: '没有token'
-      1013: '没有权限'
+  ResposeCode
+    type 'object'
+    properties
+      1000 '数据拉取成功'
+      1001 '数据新增成功'
+      1002 '数据更新成功'
+      1003 '数据删除成功'
+      1011 '系统错误'
+      1012 '没有token'
+      1013 '没有权限'
       
-      2000: '登录成功'
-      2011: '没有该用户，登录失败'
-      2012: '用户名密码错误，登录失败'
-      2001: '登出成功'
+      2000 '登录成功'
+      2011 '没有该用户，登录失败'
+      2012 '用户名密码错误，登录失败'
+      2001 '登出成功'
       
-      2013: '没有该用户，查询失败'
-      2014: '没有该用户，更新失败'
-      2015: '没有该用户，更新失败'
+      2013 '没有该用户，查询失败'
+      2014 '没有该用户，更新失败'
+      2015 '没有该用户，更新失败'
   
   

@@ -45,7 +45,7 @@ paths:
       summary: login
       responses:
         200:
-          description: OK
+          description: '登录成功'
           schema:
             # #值类型
             # type: object
@@ -65,9 +65,10 @@ paths:
                 type: 'string'
               token:
                 type: 'string'
-                description: 登录成功则带有token字段，否则不带
-        others:
-          description: 'Fail'
+                description: '登录成功则带有token字段，否则不带'
+                
+        403:
+          description: '没有该用户，登录失败 or 用户名密码错误，登录失败'
           schema:
             $ref: '#/definitions/Result'
   /admin/logout:
@@ -77,11 +78,11 @@ paths:
       summary: logout
       responses:
         200:
-          description: OK
+          description: '登出成功'
           schema:
             $ref: '#/definitions/Result'
-        400:
-          description: 'Error'
+        401:
+          description: 'token不存在'
           schema:
             $ref: '#/definitions/Result'
   /admin/info:
@@ -91,7 +92,7 @@ paths:
       summary: get user info
       responses:
         200:
-          description: OK
+          description: '数据拉取成功'
           schema:
             type: 'object'
             properties:
@@ -111,8 +112,8 @@ paths:
               email: 
                 type: 'string'
                 description: Table(admin)/email, if null, do not include this data
-        400:
-          description: 'Error'
+        403:
+          description: '没有该用户，查询失败'
           schema:
             $ref: '#/definitions/Result'
   /admin/list/{role}:
@@ -129,11 +130,11 @@ paths:
       description: getAdmin
       responses:
         200:
-          description: OK
+          description: '数据拉取成功'
           schema:
             $ref: '#/definitions/DataResult'
-        400:
-          description: 'Error'
+        401:
+          description: 'token不存在'
           schema:
             $ref: '#/definitions/Result'
 
@@ -150,37 +151,37 @@ paths:
       summary: get admin detail
       responses:
         200:
-          description: OK
+          description: '数据拉取成功'
           schema:
             $ref: '#/definitions/Result'
-        400:
-          description: 'Error'
+        401:
+          description: 'token不存在'
           schema:
             $ref: '#/definitions/Result'
     post:
       tags: 
       - admin
-      summary: add admin detail
+      summary: update admin detail
       responses:
         200:
-          description: OK
+          description: '数据更新成功'
           schema:
             $ref: '#/definitions/Result'
-        400:
-          description: 'Error'
+        403:
+          description: '没有该用户，更新失败'
           schema:
             $ref: '#/definitions/Result'
     put:
       tags: 
       - admin
-      summary: update admin detail
+      summary: add admin
       responses:
         200:
-          description: OK
+          description: '数据新增成功'
           schema:
             $ref: '#/definitions/Result'
-        400:
-          description: 'Error'
+        401:
+            description: 'token不存在'
           schema:
             $ref: '#/definitions/Result'
     delete:
@@ -189,11 +190,11 @@ paths:
       summary: delete admin
       responses:
         200:
-          description: OK
+          description: '数据删除成功'
           schema:
             $ref: '#/definitions/Result'
-        400:
-          description: 'Error'
+        403:
+          description: '没有该用户，删除失败'
           schema:
             $ref: '#/definitions/Result'
 
@@ -992,11 +993,14 @@ definitions:
       1011: '系统错误'
       1012: '没有token'
       1013: '没有权限'
-
+      
       2000: '登录成功'
       2011: '没有该用户，登录失败'
       2012: '用户名密码错误，登录失败'
-      2013: ''
-
+      2001: '登出成功'
+      
+      2013: '没有该用户，查询失败'
+      2014: '没有该用户，更新失败'
+      2015: '没有该用户，更新失败'
   
   

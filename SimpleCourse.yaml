@@ -45,7 +45,7 @@ paths:
       summary: login
       responses:
         200:
-          description: OK
+          description: '登录成功'
           schema:
             # #值类型
             # type: object

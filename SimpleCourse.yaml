@@ -137,9 +137,9 @@ paths:
           schema:
             $ref: '#/definitions/Result'
 
-  /admin/{id}:
+  /admin/{admin_id}:
     parameters: 
-      - name: 'id'
+      - name: 'admin_id'
         in: 'path'
         description: ID of admin that needs to get the data
         required: true
@@ -275,9 +275,9 @@ paths:
   #           $ref: '#/definitions/Result'
             
 # ta
-  /course/{id}/ta/:
+  /course/{course_id}/ta/:
     parameters: 
-    - name: 'id'
+    - name: 'course_id'
       in: 'path'
       description: ID of pet that needs to be updated
       required: true
@@ -992,11 +992,14 @@ definitions:
       1011: '系统错误'
       1012: '没有token'
       1013: '没有权限'
-
+      
       2000: '登录成功'
       2011: '没有该用户，登录失败'
       2012: '用户名密码错误，登录失败'
-      2013: ''
+      2001: '登出成功'
+      
+      3011: '没有该用户，查询失败'
+      4011: '没有该用户，更新失败'
 
   
   
